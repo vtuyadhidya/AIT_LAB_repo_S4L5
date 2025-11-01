@@ -1,0 +1,37 @@
+from sys import maxsize
+from itertools import permutations
+
+V = 4  # Number of vertices in the graph
+
+def travellingSalesmanProblem(graph, s):
+    vertex = []
+    for i in range(V):
+        if i != s:
+            vertex.append(i)
+
+    min_path = maxsize
+    next_permutation = permutations(vertex)
+    for i in next_permutation:
+        current_pathweight = 0
+
+        k = s
+        for j in i:
+            current_pathweight += graph[k][j]  # Add edge weight from k to j
+            k = j  # Move to the next vertex in the permutation
+
+        current_pathweight += graph[k][s]  # Add edge weight from the last vertex back to 's'
+
+        # Update min_path if a shorter path is found
+        min_path = min(min_path, current_pathweight)
+
+    return min_path
+
+if __name__ == "__main__":
+    graph = [[0, 10, 15, 20],
+             [10, 0, 35, 25],
+             [15, 35, 0, 30],
+             [20, 25, 30, 0]]
+
+    s = 0  # Starting vertex
+
+    print(travellingSalesmanProblem(graph, s))
